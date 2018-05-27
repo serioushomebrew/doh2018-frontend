@@ -35,9 +35,22 @@ const styles = theme => ({
   },
 });
 
+function findGetParameter(parameterName) {
+  var result = null,
+      tmp = [];
+  document.location.search
+      .substr(1)
+      .split("&")
+      .forEach(function (item) {
+        tmp = item.split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+      });
+  return result;
+}
+
 class ButtonAppBar extends Component {
   state = {
-    isLoggedIn: false,
+    isLoggedIn: findGetParameter('token') ? true : false,
   };
 
   render() {
@@ -53,7 +66,7 @@ class ButtonAppBar extends Component {
             <Typography variant="title" color="inherit" className={classes.flex}>
               Politie Community
             </Typography>
-            <Button color="inherit">Logout</Button>
+            <Button color="inherit" onClick={() => localStorage.clear()}>Logout</Button>
           </Toolbar>
         </AppBar>
         <div className={classes.app}>

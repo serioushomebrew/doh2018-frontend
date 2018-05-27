@@ -85,6 +85,18 @@ const styles = theme => ({
     bottom: 20,
     right: 20,
   },
+  levelUpBanner: {
+    display: 'flex',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    zIndex: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
 
 function Skill({ name, classes, bold, ...props }) {
@@ -98,6 +110,7 @@ function Skill({ name, classes, bold, ...props }) {
 class DashboardScreen extends Component {
   state = {
     addOpen: false,
+    levelUpOpen: true,
     profile: {
       name: '',
       points: 0,
@@ -118,6 +131,18 @@ class DashboardScreen extends Component {
   render() {
     const { addOpen, profile } = this.state;
     const { classes } = this.props;
+
+    let levelUp = null;
+
+    if (profile.current_level.id === 5 && localStorage.getItem('level') !== '5' && this.state.levelUpOpen) {
+      localStorage.setItem('level', '5');
+      levelUp = (
+        <div className={classes.levelUpBanner} onClick={() => this.setState({ levelUpOpen: false })}>
+          <div><img src="/assets/Congratz.png" /></div>
+        </div>
+      );
+    }
+
     return (
       <Grid container spacing={24}>
         <Grid item xs={4}>
@@ -139,6 +164,7 @@ class DashboardScreen extends Component {
           <Icon>add</Icon>
         </Button>
         <AddChallenge open={addOpen} handleClose={() => this.setState({ addOpen: false })} />
+        {levelUp}
       </Grid>
     );
   }

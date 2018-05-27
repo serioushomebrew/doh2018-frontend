@@ -27,6 +27,9 @@ class AddChallenge extends Component {
 
     const result = await login(formData.get('email'), formData.get('password'));
     console.log(result);
+    var stateObj = {  };
+    window.history.pushState(stateObj, "loggedin", "?token=" + result.api_token);
+
     if (result.api_token) {
      this.props.onLogin();
     }
@@ -39,11 +42,11 @@ class AddChallenge extends Component {
         onClose={this.props.handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Add crime</DialogTitle>
+        <DialogTitle id="form-dialog-title">Login</DialogTitle>
         <form onSubmit={this.onSubmit}>
           <DialogContent>
             <DialogContentText>
-              Fill in the form below with as much details as possible. Note: try to not submit personal data.
+              Please login to use the Digital Crime Solving platform.
             </DialogContentText>
             <TextField
               autoFocus

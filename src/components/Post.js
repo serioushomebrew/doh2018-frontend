@@ -83,6 +83,7 @@ class Post extends Component {
     const formData = new FormData();
     formData.append('user_id', o.user_id);
     const result = await apiPost(`api/challenges/${this.props.item.id}/complete`, formData);
+    this.props.onStateChange(this.props.item.id, 'completed')
   }
 
   async onSubmitMessage(e) {

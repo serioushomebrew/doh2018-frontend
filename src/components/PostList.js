@@ -83,7 +83,6 @@ class PostList extends Component {
       withAgent.push(Object.assign({}, item, { agent: agent }));
     }
 
-    console.log(withAgent);
     this.setState({ items: withAgent.map(o => ({
       id: o.id,
       title: o.name,
@@ -122,6 +121,13 @@ class PostList extends Component {
     */
   }
 
+  setItemState(itemId, status) {
+    const items = [...this.state.items].map(o => o.id === itemId
+      ? Object.assign({}, o, { status })
+      : o);
+    this.setState({ items, expanded: undefined });
+  }
+
   handleChange = panel => (e, expanded) => this.setState({ expanded: expanded ? panel : false });
 
   render() {
@@ -156,7 +162,7 @@ class PostList extends Component {
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Post profile={profile} item={item} color={colors[item.tags[0]]} />
+          <Post profile={profile} item={item} color={colors[item.tags[0]]} onStateChange={this.setItemState.bind(this)} />
         </ExpansionPanelDetails>
       </ExpansionPanel>
     ));
